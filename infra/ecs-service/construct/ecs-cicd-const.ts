@@ -1,12 +1,14 @@
-import * as cdk from '@aws-cdk/core';
-import * as iam from '@aws-cdk/aws-iam';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as ecr from '@aws-cdk/aws-ecr';
-import * as codecommit from '@aws-cdk/aws-codecommit';
-import * as codebuild from '@aws-cdk/aws-codebuild';
-import * as codepipeline from '@aws-cdk/aws-codepipeline';
-import * as actions from '@aws-cdk/aws-codepipeline-actions';
+import { Construct } from 'constructs';
+import { Duration } from 'aws-cdk-lib';
+
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as codecommit from 'aws-cdk-lib/aws-codecommit';
+import * as codebuild from 'aws-cdk-lib/aws-codebuild';
+import * as codepipeline from 'aws-cdk-lib/aws-codepipeline';
+import * as actions from 'aws-cdk-lib/aws-codepipeline-actions';
 
 import * as base from '../../../lib/template/construct/base/base-construct'
 
@@ -24,7 +26,7 @@ export interface EcsCicdProps extends base.ConstructProps {
 
 export class EcsCicdConstrunct extends base.BaseConstruct {
 
-    constructor(scope: cdk.Construct, id: string, props: EcsCicdProps) {
+    constructor(scope: Construct, id: string, props: EcsCicdProps) {
         super(scope, id, props);
 
         const sourceOutput = new codepipeline.Artifact();
@@ -51,7 +53,7 @@ export class EcsCicdConstrunct extends base.BaseConstruct {
             actionName: 'ECS_ContainerDeploy',
             service: props.service,
             imageFile: new codepipeline.ArtifactPath(buildOutput, `${props.appPath}/imagedefinitions.json`),
-            deploymentTimeout: cdk.Duration.minutes(60)
+            deploymentTimeout: Duration.minutes(60)
         });
 
         new codepipeline.Pipeline(this, 'ECSServicePipeline', {

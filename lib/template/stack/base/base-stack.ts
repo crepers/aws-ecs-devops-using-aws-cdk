@@ -16,23 +16,24 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import * as cdk from '@aws-cdk/core';
-import * as s3 from '@aws-cdk/aws-s3'
-import * as ssm from '@aws-cdk/aws-ssm'
-import * as ec2 from '@aws-cdk/aws-ec2'
-import * as ecs from '@aws-cdk/aws-ecs'
-import * as sd from '@aws-cdk/aws-servicediscovery'
+import { App, Stack, StackProps, RemovalPolicy, CfnOutput } from 'aws-cdk-lib';
+
+import * as s3 from 'aws-cdk-lib/aws-s3'
+import * as ssm from 'aws-cdk-lib/aws-ssm'
+import * as ec2 from 'aws-cdk-lib/aws-ec2'
+import * as ecs from 'aws-cdk-lib/aws-ecs'
+import * as sd from 'aws-cdk-lib/aws-servicediscovery'
 
 import { AppContext } from '../../app-context'
 
-export interface StackCommonProps extends cdk.StackProps {
+export interface StackCommonProps extends StackProps {
     projectPrefix: string;
     appConfig: any;
     appConfigPath: any;
     variable: any;
 }
 
-export class BaseStack extends cdk.Stack {
+export class BaseStack extends Stack {
     protected projectPrefix: string;
     protected commonProps: StackCommonProps;
     protected stackConfig: any;
@@ -50,7 +51,7 @@ export class BaseStack extends cdk.Stack {
     }
 
     protected exportOutput(key: string, value: string) {
-        new cdk.CfnOutput(this, `Output-${key}`, {
+        new CfnOutput(this, `Output-${key}`, {
             exportName: `${this.stackName}-${key}`,
             value: value
         });
@@ -62,7 +63,7 @@ export class BaseStack extends cdk.Stack {
         const s3Bucket = new s3.Bucket(this, baseName, {
             bucketName: `${this.stackName}-${baseName}-${suffix}`.toLowerCase().replace('_', '-'),
             versioned: false,
-            removalPolicy: cdk.RemovalPolicy.RETAIN // for prod, RETAIN is safe
+            removalPolicy: RemovalPolicy.RETAIN // for prod, RETAIN is safe
         });
 
         return s3Bucket;

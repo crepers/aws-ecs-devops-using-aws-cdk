@@ -2,9 +2,9 @@
     "Project": {
         "Name": "EcsProject",
         "Stage": "Demo",
-        "Account": "75157*******",
-        "Region": "us-east-2",
-        "Profile": "cdk-demo"
+        "Account": "33506******",
+        "Region": "ap-northeast-2",
+        "Profile": ""
     },
 
     "Stack": {
@@ -40,7 +40,7 @@
             "TableName": "LogTable",
 
             "AlarmThreshold": 200,
-            "SubscriptionEmails": ["kwonyul@amazon.com"]
+            "SubscriptionEmails": ["woochul@amazon.com"]
         },
         "SampleFrontendFlask": {
             "Name": "SampleFrontendFlaskStack",
@@ -62,7 +62,7 @@
             "AutoScalingTargetInvocation": 50,
 
             "AlarmThreshold": 200,
-            "SubscriptionEmails": ["kwonyul@amazon.com"]
+            "SubscriptionEmails": ["woochul@amazon.com"]
         },
         "LoadTesterScript": {
             "Name": "LoadTesterScriptStack",

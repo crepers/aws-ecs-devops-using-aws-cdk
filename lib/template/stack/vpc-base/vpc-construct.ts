@@ -1,5 +1,5 @@
-import * as cdk from '@aws-cdk/core';
-import * as ec2 from '@aws-cdk/aws-ec2';
+import { Construct } from 'constructs';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 
 export interface VpcConstructProps {
   vpcUseLegacy: boolean;
@@ -13,10 +13,10 @@ export interface VpcConstructProps {
   subnetConf?: ec2.SubnetConfiguration[];
 }
 
-export class VpcConstruct extends cdk.Construct {
+export class VpcConstruct extends Construct {
   public readonly baseVpc: ec2.IVpc;
 
-  constructor(scope: cdk.Construct, id: string, props: VpcConstructProps) {
+  constructor(scope: Construct, id: string, props: VpcConstructProps) {
     super(scope, id);
 
     if (props.vpcUseLegacy) {

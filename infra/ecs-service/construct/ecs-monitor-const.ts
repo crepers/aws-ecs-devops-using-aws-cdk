@@ -1,11 +1,13 @@
-import * as cdk from '@aws-cdk/core';
-import * as ddb from '@aws-cdk/aws-dynamodb';
-import * as ecs from '@aws-cdk/aws-ecs';
-import * as sns from '@aws-cdk/aws-sns';
-import * as cloudwatch from '@aws-cdk/aws-cloudwatch';
-import * as cw_actions from '@aws-cdk/aws-cloudwatch-actions';
-import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
-import * as lb2 from '@aws-cdk/aws-elasticloadbalancingv2';
+import { Duration } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+import * as ddb from 'aws-cdk-lib/aws-dynamodb';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
+import * as cw_actions from 'aws-cdk-lib/aws-cloudwatch-actions';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
+import * as lb2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 
 import * as base from '../../../lib/template/construct/base/base-construct'
 
@@ -24,7 +26,7 @@ export class EcsAlbMonitorConstrunct extends base.BaseConstruct {
     private dashboard: cloudwatch.Dashboard;
     private props: EcsMonitorProps;
     
-    constructor(scope: cdk.Construct, id: string, props: EcsMonitorProps) {
+    constructor(scope: Construct, id: string, props: EcsMonitorProps) {
         super(scope, id, props);
 
         this.props = props;
@@ -86,7 +88,7 @@ export class EcsAlbMonitorConstrunct extends base.BaseConstruct {
             title: name,
             left: metrics,
             width: width,
-            period: cdk.Duration.minutes(REFRESH_PERIOD_IN_MIN),
+            period: Duration.minutes(REFRESH_PERIOD_IN_MIN),
         });
         return widget;
     }

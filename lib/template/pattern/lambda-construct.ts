@@ -1,8 +1,10 @@
-import cdk = require('@aws-cdk/core');
-import lambda = require('@aws-cdk/aws-lambda');
-import * as iam from '@aws-cdk/aws-iam';
-import * as s3 from '@aws-cdk/aws-s3';
-import { S3EventSource } from '@aws-cdk/aws-lambda-event-sources';
+import { App, Duration, Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+
+import lambda = require('aws-cdk-lib/aws-lambda');
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { S3EventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 
 export interface LambdaPatternConstructProps {
     projectFullName: string;
@@ -11,18 +13,18 @@ export interface LambdaPatternConstructProps {
     policies: string[] | iam.PolicyStatement[];
     handler?: string;
     environments?: any;
-    timeout?: cdk.Duration;
+    timeout?: Duration;
     bucket?: s3.Bucket;
     layerArns?: string[];
     bucketPrefix?: string[];
     bucketSuffix?: string[];
 }
 
-export class LambdaPatternConstruct extends cdk.Construct {
+export class LambdaPatternConstruct extends Construct {
     public readonly lambdaFunction: lambda.Function;
     public readonly lambdaRole: iam.Role;
 
-    constructor(scope: cdk.Construct, id: string, props: LambdaPatternConstructProps) {
+    constructor(scope: Construct, id: string, props: LambdaPatternConstructProps) {
         super(scope, id);
 
         const lambdaName: string = `${props.projectFullName}-${props.baseName}-Lambda`;
@@ -40,7 +42,7 @@ export class LambdaPatternConstruct extends cdk.Construct {
             code: lambda.Code.fromAsset(lambdaPath),
             handler: props.handler != undefined ? props.handler : 'handler.handle',
             runtime: lambda.Runtime.PYTHON_3_7,
-            timeout: props.timeout != undefined ? props.timeout : cdk.Duration.seconds(60 * 3),
+            timeout: props.timeout != undefined ? props.timeout : Duration.seconds(60 * 3),
             role: lambdaRole,
             environment: props.environments,
             layers: layers.length > 0 ? layers : undefined,

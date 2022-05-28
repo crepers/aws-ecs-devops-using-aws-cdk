@@ -18,7 +18,7 @@
 
 const fs = require('fs');
 const env = require('env-var');
-import * as cdk from '@aws-cdk/core';
+import { App } from 'aws-cdk-lib';
 
 import { StackCommonProps } from './stack/base/base-stack';
 
@@ -29,7 +29,7 @@ export interface AppContextProps {
 }
 
 export class AppContext {
-    public readonly cdkApp: cdk.App;
+    public readonly cdkApp: App;
     public readonly appConfig: any | undefined;
     public readonly stackCommonProps: StackCommonProps | undefined;
 
@@ -37,7 +37,7 @@ export class AppContext {
     private infraConfigPath: string|undefined;
 
     constructor(props: AppContextProps) {
-        this.cdkApp = new cdk.App();
+        this.cdkApp = new App();
 
         this.projectPrefix = props.projectPrefix;
 
@@ -64,7 +64,7 @@ export class AppContext {
     }
 
     // must contain infra/config/xxxx.json
-    private loadConfig(cdkApp: cdk.App, key: string, contextArgs?: string[]): any {
+    private loadConfig(cdkApp: App, key: string, contextArgs?: string[]): any {
         var fromType = 'Input-Parameter';
         var configFilePath = cdkApp.node.tryGetContext(key); //'APP_CONFIG'
 
@@ -89,7 +89,7 @@ export class AppContext {
         }
     }
 
-    private loadConfigFromFile(filePath: string, app?: cdk.App, contextArgs?: string[]): any {
+    private loadConfigFromFile(filePath: string, app?: App, contextArgs?: string[]): any {
         this.infraConfigPath = filePath;
         let config: any = JSON.parse(fs.readFileSync(filePath).toString());
         
@@ -102,7 +102,7 @@ export class AppContext {
         return config;
     }
     
-    private updateContextArgs(config: any, app: cdk.App, contextArgs: string[]) {
+    private updateContextArgs(config: any, app: App, contextArgs: string[]) {
         for (var key of contextArgs) {
             const jsonKeys = key.split('.');
             let oldValue = '';

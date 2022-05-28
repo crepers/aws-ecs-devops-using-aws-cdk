@@ -16,9 +16,9 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import * as cdk from '@aws-cdk/core';
-import * as ssm from '@aws-cdk/aws-ssm'
-
+import { CfnOutput } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import * as ssm from 'aws-cdk-lib/aws-ssm'
 
 export interface ConstructProps {
     projectPrefix: string;
@@ -27,12 +27,12 @@ export interface ConstructProps {
     appConfig: any;
 }
 
-export class BaseConstruct extends cdk.Construct {
+export class BaseConstruct extends Construct {
     protected stackName: string;
     protected stackConfig: any;
     protected appConfig: any;
 
-    constructor(scope: cdk.Construct, id: string, props: ConstructProps) {
+    constructor(scope: Construct, id: string, props: ConstructProps) {
         super(scope, id);
 
         this.stackName = props.stackName;
@@ -42,7 +42,7 @@ export class BaseConstruct extends cdk.Construct {
     }
 
     protected exportOutput(key: string, value: string) {
-        new cdk.CfnOutput(this, `Output-${key}`, {
+        new CfnOutput(this, `Output-${key}`, {
             exportName: `${this.stackName}-${key}`,
             value: value
         });
